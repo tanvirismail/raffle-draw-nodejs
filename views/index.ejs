@@ -1,113 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Raffel Draw</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
 
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.css">
-<style>
-    .clock {
-      width: 650px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
-    }
-</style> -->
-<div class="clock"></div>
+  <body>
 
-
-<p id="token">0000</p>
-
-<p id="complete" style="display: none;">Game is over</p>
-<button type="button" id="start">Start</button>
-<button type="button" id="close">Close</button>
-
-
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://momentjs.com/downloads/moment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.14/moment-timezone-with-data-2012-2022.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.js"></script> -->
-
-<!-- <script>
-    $(document).ready(function() {
-        let clock;
-
-        // Grab the current date
-        let currentDate = new Date();
-
-        // Target future date/24 hour time/Timezone
-        let targetDate = moment.tz("2022-06-19 23:59", "Australia/Sydney");
-
-        // Calculate the difference in seconds between the future and current date
-        let diff = targetDate / 1000 - currentDate.getTime() / 1000;
-
-        if (diff <= 0) {
-            // If remaining countdown is 0
-            clock = $(".clock").FlipClock(0, {
-                clockFace: "DailyCounter",
-                countdown: true,
-                autostart: false
-            });
-            console.log("Date has already passed!")
+    <div class="container">
+        <div class="row justify-content-md-center" style="padding-top: 5rem!important;">
+            <div class="col-9">
+                <img style="padding-left: 72px;" src="img/header-logo.png" class="img-fluid" alt="...">
+            </div>
+        </div>
+        <div class="row">
             
-        } 
-        else {
-            // Run countdown timer
-            clock = $(".clock").FlipClock(diff, {
-                clockFace: "DailyCounter",
-                countdown: true,
-                callbacks: {
-                    stop: function() {
-                    console.log("Timer has ended!")
-                    }
-                }
-            });
-            
-            // Check when timer reaches 0, then stop at 0
-            setTimeout(function() {
-                checktime();
-            }, 1000);
-            
-            function checktime() {
-                t = clock.getTime();
-                if (t <= 0) {
-                    clock.setTime(0);
-                }
-                setTimeout(function() {
-                    checktime();
-                }, 1000);
-            }
-        }
-    });
-</script> -->
+            <div class="col-12 py-4">
+                <div class="title">Grand Raffle Draw</div>
+            </div>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
+            <div class="col-12">
+                <div class="number-diy">
+                    <div class="data" data-number="5675"></div>
+                </div>
+            </div>
 
-    let status = "<%= status %>";
-
-    console.log(status)
-    if(status == "complete"){
-        document.querySelector('#complete').style.display = 'block';
-    }
-
-
-    const startBtn = document.querySelector('#start');
-
-    startBtn.addEventListener('click', event => {
-        axios.post('http://localhost:3000/store')
-            .then(function (response) {
-                var data = response.data
-                if(data.status == "success"){
-                    document.querySelector('#token').innerHTML = data.result;
-                }
-                else if(data.status == "complete"){
-                    document.querySelector('#complete').style.display = 'block';
-                }
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
-    });
+            <div class="col-12 text-center pt-4 pb-5">
+                <img id="start" src="img/button.png" style="width: 100px;cursor: pointer;"/>
+            </div>
     
-</script>
+        </div>
+        <div class="row pb-5 justify-content-md-center">
+            <div class="col-9">
+                <img src="img/footer-logo.png" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+
+       
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+      <script src="rollNumber.js"></script>
+      <script>
+        let status = "<%= status %>";
+        if(status == "complete"){
+            $('#start').addClass('disable');
+        }
+
+        $diy = $('.number-diy .data');
+        $diy.rollNumber({
+          number: $diy[0].dataset.number, 
+          speed: 500, 
+          interval: 200,
+          rooms: 4,
+          space: 110,
+          // symbol: ',', 
+          fontStyle: {
+            'font-size': 102,
+            'font-family': 'ds-digitalbold',
+          }
+        })
+      </script>
+  </body>
+</html>
+
+

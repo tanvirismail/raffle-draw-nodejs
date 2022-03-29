@@ -6,6 +6,7 @@ import result from './result.json';
 
 const port = 3000;
 const app = express();
+app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -38,7 +39,11 @@ app.post('/store', (req, res) => {
                 return
             }
         })
-        res.json({status:'success',result:rndInt});
+        let lock = 0;
+        if(result.lock.length == prizeCount){
+            lock = 1;
+        }
+        res.json({status:'success',result:rndInt,lock:lock});
     } 
     else {
         res.json({status:'complete',result: result.lock});
