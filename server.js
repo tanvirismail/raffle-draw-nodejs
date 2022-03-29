@@ -18,15 +18,15 @@ const length = result.lock.length;
 
 app.get('/', (req, res) => {
     let status = '';
-    if(length == prizeCount){
-        status = 'complete';
-    }
+    // if(length == prizeCount){
+    //     status = 'complete';
+    // }
     res.render('index',{status: status})
 });
 
 app.post('/store', (req, res) => {
 
-    if(length < prizeCount){
+    // if(length < prizeCount){
         let rndInt = '';
         do {
             rndInt = Math.floor(Math.random() * endSL) + startSL
@@ -44,15 +44,15 @@ app.post('/store', (req, res) => {
             lock = 1;
         }
         res.json({status:'success',result:rndInt,lock:lock});
-    } 
-    else {
-        res.json({status:'complete',result: result.lock});
-    }
+    // } 
+    // else {
+    //     res.json({status:'complete',result: result.lock});
+    // }
     
 });
 
 app.get('/data', (req, res) => {
-    res.json({result:'sdf'})
+    res.json({result:result.lock})
     // res.sendFile(path.join(__dirname, './views/index.html')));
 });
 
