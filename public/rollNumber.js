@@ -86,88 +86,79 @@ let domArr = [];
 })(jQuery);
 
 $('#start').click(function () {
-    if(status != "complete"){
+  if(status != "complete"){
     rollRequest()
-    }
+  }
 })
 $('body').keydown(function (e) {
-    if ((e.which === 10 || e.which === 13 || e.which === 32) && status != "complete") {
-        rollRequest()
-    }
+  if ((e.which === 10 || e.which === 13 || e.which === 32) && status != "complete") {
+    rollRequest()
+  }
 });
 $('#reset').click(function () {
-    rollRset()
+  rollRset()
 })
 
 function rollRequest(){
-    axios.post('http://localhost:3000/store')
-    .then(function (response) {
-        var data = response.data
-        if(data.status == "success"){
-            rollStart(data,data.lock)
-        }
-        else if(data.status == "complete"){
-            status = data.status
-            $('#start').addClass('disable');
-            rollRset()
-        }
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error);
-    })
-    .then(function () {
-        // always executed
-    });
+  axios.post('http://localhost:3000/store')
+  .then(function (response) {
+    var data = response.data
+    if(data.status == "success"){
+      rollStart(data,data.lock)
+    }
+    else if(data.status == "complete"){
+      status = data.status
+      $('#start').addClass('disable');
+      rollRset()
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
 }
 
 function rollStart(data,lock=0){
-    let result = ("000" + data.result).slice(-4);
-    resultArr = String(result).split('');
-    $('#start').addClass('disable');
-    for (let i = 0; i < domArr.length; i++) {
-        let up = setInterval(function(){
-            setTimeout(function(dom, n) {
-            $(dom.children[0].children[0]).animate({
-                'top': -_height * n + 'px' 
-            }, speed);
-            }, interval*(domArr.length - i), domArr[i], numArr[i])
-        }, 1000)
-        let down = setInterval(function(){
-            setTimeout(function(dom, n) {
-            $(dom.children[0].children[0]).animate({
-                'top': -_height / n + 'px'
-            }, speed);
-            }, interval*(domArr.length - i), domArr[i], numArr[i]);
-        }, 1000) 
-        
-        setTimeout(function(dom, n) {
-            clearInterval(down);
-            clearInterval(up);
-            setTimeout(function(dom, n) {
-                $(dom.children[0].children[0]).animate({
-                    'top': -_height * n + 'px' 
-                }, speed);
-            }, interval*(domArr.length - i), domArr[i], resultArr[i]);
-
-            setTimeout(function() {
-                if(lock != 1){
-                    $('#start').removeClass('disable');
-                }
-            }, rollStopInterval);
-            
-        }, rollStopInterval );
-    }
+  let result = ("000" + data.result).slice(-4);
+  resultArr = String(result).split('');
+  $('#start').addClass('disable');
+  for (let i = 0; i < domArr.length; i++) {
+    let up = setInterval(function(){
+      setTimeout(function(dom, n) {
+        $(dom.children[0].children[0]).animate({
+            'top': -_height * n + 'px' 
+        }, speed);
+      }, interval*(domArr.length - i), domArr[i], numArr[i])
+    }, 1000)
+    let down = setInterval(function(){
+      setTimeout(function(dom, n) {
+        $(dom.children[0].children[0]).animate({
+            'top': -_height / n + 'px'
+        }, speed);
+      }, interval*(domArr.length - i), domArr[i], numArr[i]);
+    }, 1000)
+    setTimeout(function(dom, n) {
+      clearInterval(down);
+      clearInterval(up);
+      setTimeout(function(dom, n) {
+        $(dom.children[0].children[0]).animate({
+            'top': -_height * n + 'px' 
+        }, speed);
+      }, interval*(domArr.length - i), domArr[i], resultArr[i]);
+      setTimeout(function() {
+        if(lock != 1){
+          $('#start').removeClass('disable');
+        }
+      }, rollStopInterval);
+    }, rollStopInterval );
+  }
 }
 
 function rollRset(){
-    for (let i = 0; i < domArr.length; i++) {
-        setTimeout(function(dom) {
-          $(dom.children[0].children[0]).animate({
-            'top': '0px' 
-          }, speed);
-        }, interval*(domArr.length - i), domArr[i]);
-    }
+  for (let i = 0; i < domArr.length; i++) {
+    setTimeout(function(dom) {
+      $(dom.children[0].children[0]).animate({
+        'top': '0px' 
+      }, speed);
+    }, interval*(domArr.length - i), domArr[i]);
+  }
 }
-
-

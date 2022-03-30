@@ -50,10 +50,19 @@ app.post('/store', (req, res) => {
     // }
     
 });
-
+app.get('/clean', (req, res,next) => {
+    result.lock = [];
+    const content = JSON.stringify(result);
+    fs.writeFile('./result.json', content, err => {
+        if (err) {
+            console.error(err)
+            return
+        }
+    })
+    res.json({result:'done'})
+});
 app.get('/data', (req, res) => {
     res.json({result:result.lock})
-    // res.sendFile(path.join(__dirname, './views/index.html')));
 });
 
 app.listen(port, () => console.log(`Server started on PORT ${port}`));
