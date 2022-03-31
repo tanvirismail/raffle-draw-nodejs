@@ -1,8 +1,8 @@
 let interval = 100;
 let rollStopInterval = 15000;
 let speed = 500;
-let numArr = [9,9,9,9];
-let resultArr = [9,9,9,9];
+let numArr = [5,9,9,9];
+let resultArr = [5,9,9,9];
 let _height = 0; 
 let domArr = []; 
 (function($) {
