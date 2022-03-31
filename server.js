@@ -30,7 +30,7 @@ app.post('/store', (req, res) => {
         let rndInt = '';
         do {
             rndInt = Math.floor(Math.random() * endSL) + startSL
-        } while (result.lock.indexOf(rndInt) > 0 && length < prizeCount);
+        } while (result.lock.indexOf(rndInt) > 0);
         result.lock.push(rndInt);
         const content = JSON.stringify(result);
         fs.writeFile('./result.json', content, err => {

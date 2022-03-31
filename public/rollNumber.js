@@ -1,5 +1,5 @@
 let interval = 100;
-let rollStopInterval = 4000;
+let rollStopInterval = 15000;
 let speed = 500;
 let numArr = [9,9,9,9];
 let resultArr = [9,9,9,9];
